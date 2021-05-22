@@ -52,8 +52,16 @@ const basename = filename => {
   return (/([^\\/]*)$/.exec(filename) || ['', ''])[1]
 }
 
-const cameraSwitch = (cameraType) => {
+const cameraSwitch = () => {
   const cameraId = document.getElementById('camera').value
+  let cameraType
+  if (document.getElementById('v1').checked) {
+    cameraType = 'none'
+  } else if (document.getElementById('v2').checked) {
+    cameraType = 'superpose'
+  } else if (document.getElementById('v3').checked) {
+    cameraType = 'camera-only'
+  }
   window.electron.sendMessage({ msg: 'camera', cameraId, cameraType })
 }
 
@@ -78,14 +86,17 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('next-page').addEventListener('click', (evt) => {
     window.electron.sendMessage({ msg: 'page', absolute: false, value: 1 })
   }, false)
+  document.getElementById('camera').addEventListener('change', (evt) => {
+    cameraSwitch()
+  }, false)
   document.getElementById('v1').addEventListener('click', (evt) => {
-    cameraSwitch(evt.currentTarget.value)
+    cameraSwitch()
   }, false)
   document.getElementById('v2').addEventListener('click', (evt) => {
-    cameraSwitch(evt.currentTarget.value)
+    cameraSwitch()
   }, false)
   document.getElementById('v3').addEventListener('click', (evt) => {
-    cameraSwitch(evt.currentTarget.value)
+    cameraSwitch()
   }, false)
   document.getElementById('jump').addEventListener('click', (evt) => {
     const value = document.getElementById('page').value | 0
