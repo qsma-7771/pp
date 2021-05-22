@@ -1,4 +1,5 @@
 'use strict'
+let filename
 let numPages
 let page
 let notes = {}
@@ -97,10 +98,10 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(message)
     switch (message.msg) {
       case 'load':
+        filename = message.filename
         numPages = message.pages
         document.title = `pp - ${basename(message.filename)}`
         document.getElementById('numPages').textContent = numPages
-        pageChange(1)
         break
       case 'page':
         pageChange(message.page)
@@ -108,6 +109,10 @@ document.addEventListener('DOMContentLoaded', () => {
       case 'notes':
         notes = message.notes || {}
         pageChange()
+        break
+      case 'reload':
+        window.electron.sendMessage({ msg: 'load', filename, page})
+        cameraSwitch()
         break
     }
   }, false)

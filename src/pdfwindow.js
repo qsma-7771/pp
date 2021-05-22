@@ -36,10 +36,10 @@ const basename = filename => {
   return (/([^\\/]*)$/.exec(filename) || ['', ''])[1]
 }
 
-const loadPdf = async (filename) => {
+const loadPdf = async (filename, page = 1) => {
   const _pdf = await pdfjsLib.getDocument(filename).promise
   document.title = `pp - ${basename(filename)}`
-  pageNo = 1
+  pageNo = page
   pdf = _pdf
   await showPage(true)
 }
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
     switch (message.msg) {
       case 'load':
         (async () => {
-          await loadPdf(message.filename)
+          await loadPdf(message.filename, message.page)
           window.electron.sendMessage({ msg: 'load', pages: pdf.numPages, filename: message.filename })
         })()
         break
@@ -142,6 +142,12 @@ window.addEventListener('contextmenu', e => {
     document.body.classList.add('pointer')
   }
 }, false)
+
+window.addEventListener('keydown', e => {
+  if (e.key == 'r') {
+    window.electron.sendMessage({ msg: 'reload' })
+  }
+})
 
 window.addEventListener('click', (evt) => {
   const x = evt.clientX
