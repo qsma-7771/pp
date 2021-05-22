@@ -132,11 +132,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }, false)
 })
 
-window.addEventListener('mousemove', (evt) => {
-  if (evt.shiftKey) {
-    document.body.classList.add('pointer')
-  } else {
+window.addEventListener('contextmenu', e => {
+  if (document.body.classList.contains('pointer') == true) {
     document.body.classList.remove('pointer')
+    document.body.classList.add('pointer-none')
+  } else if (document.body.classList.contains('pointer-none') == true) {
+    document.body.classList.remove('pointer-none')
+  } else {
+    document.body.classList.add('pointer')
   }
 }, false)
 
