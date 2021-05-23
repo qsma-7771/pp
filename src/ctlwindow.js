@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
       case 'load':
         filename = message.filename
         numPages = message.pages
-        document.title = `pp - ${basename(message.filename)}`
+        document.title = `pp (ctrl) - ${basename(message.filename)}`
         document.getElementById('numPages').textContent = numPages
         break
       case 'page':

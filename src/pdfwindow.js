@@ -38,7 +38,7 @@ const basename = filename => {
 
 const loadPdf = async (filename, page = 1) => {
   const _pdf = await pdfjsLib.getDocument(filename).promise
-  document.title = `pp - ${basename(filename)}`
+  document.title = `pp (pdf) - ${basename(filename)}`
   pageNo = page
   pdf = _pdf
   await showPage(true)
